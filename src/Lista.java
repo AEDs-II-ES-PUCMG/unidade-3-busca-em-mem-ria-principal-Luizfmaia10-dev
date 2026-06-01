@@ -3,6 +3,7 @@ public class Lista<E> {
 	private Celula<E> primeiro;
 	private Celula<E> ultimo;
 	private int tamanho;
+	//teste
 	
 	public Lista() {
 		
