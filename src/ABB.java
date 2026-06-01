@@ -2,6 +2,8 @@ import java.util.Comparator;
 import java.util.NoSuchElementException;
 import java.util.function.Function;
 
+import org.w3c.dom.Node;
+
 public class ABB<K, V> implements IMapeamento<K, V>{
 
 	private No<K, V> raiz; // referência à raiz da árvore.
@@ -182,4 +184,32 @@ public class ABB<K, V> implements IMapeamento<K, V>{
 	public double getTempo() {
 		return (termino - inicio) / 1_000_000;
 	}
+
+	public Lista<V> recortar(K chaveDeOnde, K chaveAteOnde) {
+        Lista<V> resultado = new Lista<>(); 
+        recortarRecursivo(this.raiz, chaveDeOnde, chaveAteOnde, resultado);
+        return resultado;
+    }
+
+    private void recortarRecursivo(No<K, V> noAtual, K deOnde, K ateOnde, Lista<V> lista) {
+        if (noAtual == null) {
+            return;
+        }
+
+        int compInicio = comparador.compare(noAtual.getChave(), deOnde);
+        int compFim = comparador.compare(noAtual.getChave(), ateOnde);
+
+        if (compInicio > 0) {
+            recortarRecursivo(noAtual.getEsquerda(), deOnde, ateOnde, lista);
+        }
+
+        if (compInicio >= 0 && compFim <= 0) {
+            lista.inserir(noAtual.getItem());
+        }
+
+        if (compFim < 0) {
+            recortarRecursivo(noAtual.getDireita(), deOnde, ateOnde, lista);
+        }
+    }
+	
 }
