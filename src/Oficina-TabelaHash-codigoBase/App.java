@@ -180,7 +180,12 @@ public class App {
     }
 
     private static void inserirNaTabela(Produto produto, Pedido pedido) {
-        // TODO
+        Lista <Pedido> pedidos = pedidosPorProduto.pesquisar(produto);
+        if(pedidos== null){
+            pedidos= new Lista<>();
+            pedidosPorProduto.inserir(produto,pedidos);
+        }
+        pedidos.inserir(pedido);
     }
 
     private static void recortarArvore(ABB<String, Produto> arvore) {
@@ -228,5 +233,9 @@ public class App {
         } while (opcao != 0);
 
         teclado.close();
+    }
+    private static void inserirNaTabela(Produto produto, Pedido pedido){
+        
+
     }
 }
